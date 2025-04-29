@@ -1,0 +1,97 @@
+Ticket Selling System — Version 1 (Synchronized Methods)
+📚 Overview
+This project simulates a multi-threaded ticket selling system where multiple threads interact with a shared TicketPool.
+The system uses Java's intrinsic synchronization (synchronized, wait(), notifyAll()) to ensure thread-safe operations.
+
+The simulation includes:
+
+Vendors (Producers) adding normal tickets
+
+Consumers (Customers) purchasing tickets
+
+Writers modifying the ticket pool (adding special tickets)
+
+Readers monitoring available ticket counts
+
+🏛 Architecture
+
+Class	Responsibility
+Ticket	Model class holding Ticket ID, Vendor Name, and Event
+TicketPool (interface)	Defines core ticket pool operations
+TicketPoolSync	Synchronized implementation of TicketPool
+Vendor	Adds normal tickets into the pool
+Consumer	Purchases tickets from the pool
+Writer	Adds special tickets (modifies the pool)
+Reader	Periodically checks available ticket counts
+SimulationManager	Manages thread creation and starting
+⚙️ Synchronization Mechanism
+
+Mechanism	Purpose
+synchronized methods	Ensures only one thread accesses critical section at a time
+wait()	Suspends threads when pool is full (producers) or empty (consumers)
+notifyAll()	Wakes up all waiting threads once a change happens
+🔥 How the System Works
+Vendor adds 10 normal tickets (TICKET-1 to TICKET-10) to the pool.
+
+Writer adds 3 special tickets (SPECIAL-1, SPECIAL-2, SPECIAL-3).
+
+Consumer buys tickets as they become available (normal or special).
+
+Reader continuously monitors how many tickets are available in the pool.
+
+All threads work concurrently while ensuring thread safety.
+
+📈 Sample Output (Simplified View)
+yaml
+Copy
+Edit
+Reader-Thread sees available tickets: 0
+Writer-Thread added TicketID: SPECIAL-1
+Consumer-Thread purchased TicketID: SPECIAL-1
+Vendor-Thread added TicketID: TICKET-1
+Vendor-Thread added TicketID: TICKET-2
+Consumer-Thread purchased TicketID: TICKET-1
+...
+Vendor-Thread added TicketID: TICKET-10
+Consumer-Thread purchased TicketID: TICKET-10
+✅ Tickets are produced and consumed concurrently.
+✅ FIFO (First In First Out) order is maintained.
+✅ Vendor and Writer both act as producers.
+✅ Reader monitors stock live.
+
+🧠 Real-World Analogy
+An online ticket selling platform where vendors add regular event tickets,
+organizers add special VIP tickets,
+customers purchase available tickets first-come-first-serve,
+and the system dashboard monitors stock levels live.
+
+🛡 Key Strengths
+Demonstrates Producer-Consumer problem solution using synchronization
+
+Demonstrates Reader-Writer concurrency
+
+Demonstrates safe multi-threaded ticket management
+
+Avoids race conditions and data inconsistencies
+
+📚 Learning Outcomes
+Java Multi-threading Fundamentals
+
+Using synchronized, wait(), notifyAll() correctly
+
+Managing shared resources safely across multiple threads
+
+Designing a realistic concurrent system simulation
+
+🚀 How to Run
+Ensure all .java files are placed under the package synchronizedMethods.
+
+Compile all classes.
+
+Run SimulationManager.java.
+
+Observe the ticket production, consumption, modification, and reading process.
+
+
+
+

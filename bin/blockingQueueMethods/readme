@@ -1,0 +1,104 @@
+📄 README.md — Version 3 (BlockingQueue Version)
+Ticket Selling System — Version 3 (BlockingQueue Version)
+📚 Overview
+This project simulates a multi-threaded ticket selling system using Java’s BlockingQueue for built-in synchronization.
+
+It models real-world concurrent access to a shared TicketPool, where:
+
+Vendors (Producers) add normal tickets.
+
+Consumers (Customers) purchase tickets.
+
+Writers (Special Vendors) modify the ticket pool by adding special tickets.
+
+Readers monitor available ticket counts.
+
+This version simplifies concurrency control by using BlockingQueue’s put() and take() methods.
+
+🏛 Architecture
+
+Class	Responsibility
+Ticket	Model class holding Ticket ID, Vendor Name, and Event Name
+TicketPool (interface)	Defines basic ticket pool operations
+TicketPoolBlocking	BlockingQueue-based implementation of TicketPool
+Vendor	Adds normal tickets to the pool
+Consumer	Purchases tickets from the pool
+Writer	Adds special VIP tickets to the pool
+Reader	Monitors and prints available ticket count
+SimulationManager	Manages and starts all threads
+⚙️ Synchronization Mechanism
+
+Mechanism	Purpose
+BlockingQueue (ArrayBlockingQueue)	Handles thread safety for adding and removing tickets automatically
+put() method	Blocks vendors/writers if the queue is full
+take() method	Blocks consumers if the queue is empty
+✅ No need for manual synchronized, wait(), notifyAll().
+✅ Built-in blocking behavior simplifies thread management.
+
+🔥 How the System Works
+Vendor adds 10 normal tickets (TICKET-1 to TICKET-10) to the ticket pool.
+
+Writer adds 3 special tickets (SPECIAL-1, SPECIAL-2, SPECIAL-3).
+
+Consumer purchases any available tickets in FIFO (First In First Out) order.
+
+Reader monitors the pool and prints available tickets regularly.
+
+Thread blocking and waiting are handled automatically by the BlockingQueue.
+
+📈 Sample Output (Simplified)
+yaml
+Copy
+Edit
+Reader-Thread sees available tickets: 0
+Vendor-Thread added TicketID: TICKET-1
+Writer-Thread added TicketID: SPECIAL-1
+Consumer-Thread purchased TicketID: TICKET-1
+Vendor-Thread added TicketID: TICKET-2
+Consumer-Thread purchased TicketID: SPECIAL-1
+...
+Consumer-Thread purchased TicketID: TICKET-10
+✅ Vendors and Writers produce tickets concurrently.
+✅ Consumers consume tickets as they become available.
+✅ Readers monitor the system live.
+
+🧠 Real-World Analogy
+An online ticket platform where event vendors add tickets,
+special organizers add VIP tickets,
+customers purchase available tickets immediately,
+and system admins monitor the available ticket inventory.
+
+🛡 Key Strengths
+Simplified concurrency management using Java’s BlockingQueue.
+
+Automatic blocking for producers and consumers.
+
+No need to manually control thread wait/notify logic.
+
+Safer and less error-prone under high concurrency.
+
+📚 Learning Outcomes
+Using BlockingQueue for concurrent producer-consumer problems.
+
+Managing a ticket-selling system with built-in synchronization support.
+
+Understanding automatic thread blocking based on queue states.
+
+Designing multi-threaded systems with minimal complexity.
+
+🚀 How to Run
+Ensure all .java files are placed under the package blockingQueueMethods.
+
+Compile all classes.
+
+Run SimulationManager.java.
+
+Observe ticket production, consumption, and monitoring operations.
+
+📋 System Parameters
+
+Parameter	Value
+Ticket pool maximum capacity	5
+Normal tickets added by Vendor	10
+Special tickets added by Writer	3
+Sleep times for each role	Vendor (300ms), Consumer (400ms), Writer (700ms), Reader (500ms)
