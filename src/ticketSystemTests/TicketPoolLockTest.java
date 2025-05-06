@@ -51,4 +51,27 @@ public class TicketPoolLockTest {
         ticketPool.purchaseTicket();
         assertEquals(0, ticketPool.availableTickets());
     }
+    
+    @Test
+	void testConcurrentAccess() throws InterruptedException {
+	    Thread producer = new Thread(() -> {
+	        for (int i = 0; i < 3; i++) {
+	            ticketPool.addTicket(new Ticket("" + i, "Vendor", "Concert"));
+	        }
+	    });
+
+	    Thread consumer = new Thread(() -> {
+	        for (int i = 0; i < 3; i++) {
+	            ticketPool.purchaseTicket();
+	        }
+	    });
+
+	    producer.start();
+	    consumer.start();
+
+	    producer.join();
+	    consumer.join();
+
+	    assertTrue(ticketPool.isEmpty());
+	}
 }
